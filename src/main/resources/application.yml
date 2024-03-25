@@ -1,6 +1,8 @@
 spring:
   application:
     name: tango-songs
+  jpa:
+    database-platform: com.example.tangosongs.configuration.CustomPostgreSQLDialect
   datasource:
     url: jdbc:postgresql://localhost:5432/tango_songs
     username: postgres
