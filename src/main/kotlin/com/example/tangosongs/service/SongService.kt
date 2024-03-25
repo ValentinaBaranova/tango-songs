@@ -9,8 +9,8 @@ class SongService(
     private val songRepository: SongRepository
 ) {
 
-    fun getSongs(): MutableList<SongEntity> {
-        return songRepository.findAll()
+    fun getSongs(q: String): List<SongEntity> {
+        return songRepository.findByNameContaining(q)
     }
 
 }

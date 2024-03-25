@@ -13,6 +13,8 @@ interface SongRepository: JpaRepository<SongEntity, UUID> {
 
     fun findByTrackIdIsNull(): List<SongEntity>
 
+    fun findByNameContaining(name: String): List<SongEntity>
+
     @Modifying
     @Transactional
     @Query("update SongEntity set trackId=:trackId where id=:id")

@@ -4,6 +4,7 @@ import com.example.tangosongs.api.model.SongDto
 import com.example.tangosongs.service.SongService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -17,8 +18,11 @@ class SongController(
 
     @GetMapping(API_PREFIX)
     @Operation(description = "Get list of songs")
-    fun getSongs(): List<SongDto> {
-        return songService.getSongs().map {
+    fun getSongs(
+        @RequestParam
+        q: String
+    ): List<SongDto> {
+        return songService.getSongs(q).map {
             SongDto(
                 name = it.name,
                 orchestra = it.orchestra,

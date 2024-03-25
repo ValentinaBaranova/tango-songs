@@ -1,0 +1,25 @@
+
+version: '3.5'
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_MULTIPLE_DATABASES: tango_songs
+    volumes:
+      - ./pg-init-scripts:/docker-entrypoint-initdb.d
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  postgres:
+
+networks:
+  postgres:
+    driver: bridge
