@@ -48,10 +48,6 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
@@ -59,6 +55,15 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.hypersistence</groupId>
+			<artifactId>hypersistence-utils-hibernate-63</artifactId>
+			<version>3.7.3</version>
 		</dependency>
 		<!-- used to add .env file with environment variables -->
 		<dependency>
@@ -82,6 +87,12 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-inline</artifactId>
 			<version>4.0.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>1.19.7</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
