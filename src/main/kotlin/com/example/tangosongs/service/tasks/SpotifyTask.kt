@@ -1,13 +1,13 @@
-package com.example.tangosongs.service
+package com.example.tangosongs.service.tasks
 
 import com.example.tangosongs.model.SongEntity
 import com.example.tangosongs.repository.SongRepository
 import com.example.tangosongs.service.spotify.SpotifyClient
 import org.springframework.scheduling.annotation.Scheduled
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
-class SpotifyService(
+@Component
+class SpotifyTask(
     private val songRepository: SongRepository,
     private val spotifyClient: SpotifyClient
 ) {

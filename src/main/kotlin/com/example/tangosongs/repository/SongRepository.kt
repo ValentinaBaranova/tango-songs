@@ -14,6 +14,8 @@ interface SongRepository : JpaRepository<SongEntity, UUID>, JpaSpecificationExec
 
     fun findByTrackIdIsNull(): List<SongEntity>
 
+    fun findBySourceFilename(sourceFilename: String): List<SongEntity>
+
     @Modifying
     @Transactional
     @Query("update SongEntity set trackId=:trackId where id=:id")

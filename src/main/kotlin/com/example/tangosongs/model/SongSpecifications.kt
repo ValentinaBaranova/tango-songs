@@ -12,7 +12,7 @@ class SongSpecifications {
                     cb.function(
                         "tsvector_match",
                         Boolean::class.java,
-                        root.get<String>("singerOrchestraNameSearchVector"),
+                        root.get<String>("singersOrchestraNameSearchVector"),
                         cb.function("plainto_tsquery", String::class.java, cb.literal("spanish"), cb.literal(search))
                     )
                 )

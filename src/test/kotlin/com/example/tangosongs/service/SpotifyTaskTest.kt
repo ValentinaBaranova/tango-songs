@@ -5,6 +5,7 @@ import com.example.tangosongs.model.SongEntity
 import com.example.tangosongs.repository.SongRepository
 import com.example.tangosongs.service.spotify.SearchResponse
 import com.example.tangosongs.service.spotify.SpotifyClient
+import com.example.tangosongs.service.tasks.SpotifyTask
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.whenever
 import org.assertj.core.api.Assertions.assertThat
@@ -13,13 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
-class SpotifyServiceTest : AbstractTest() {
+class SpotifyTaskTest : AbstractTest() {
 
     @Autowired
     lateinit var spotifyClient: SpotifyClient
 
     @Autowired
-    lateinit var spotifyService: SpotifyService
+    lateinit var spotifyTask: SpotifyTask
 
     @Autowired
     lateinit var songRepository: SongRepository
@@ -43,7 +44,7 @@ class SpotifyServiceTest : AbstractTest() {
                 )
             )
         )
-        spotifyService.fillTrackIds()
+        spotifyTask.fillTrackIds()
         val updatedSong = songRepository.findById(songId).getOrNull()
         assertThat(updatedSong).isNotNull
         assertThat(updatedSong!!.trackId).isNotNull()
@@ -57,7 +58,7 @@ class SpotifyServiceTest : AbstractTest() {
             name = "Testname2",
             orchestra = "Testorchestra2"
         ))
-        spotifyService.fillTrackIds()
+        spotifyTask.fillTrackIds()
         val updatedSong = songRepository.findById(songId).getOrNull()
         assertThat(updatedSong).isNotNull
         assertThat(updatedSong!!.trackId).isNull()

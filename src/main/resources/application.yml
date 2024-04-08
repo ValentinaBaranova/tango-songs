@@ -28,3 +28,7 @@ feign:
     config:
       spotify:
         url: https://api.spotify.com
+
+application:
+  song-loader:
+    path-to-files: ${SONGS_DIR}
