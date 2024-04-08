@@ -5,7 +5,7 @@ create table song (
     singers text,
     release_year integer,
     track_id text,
-    track_id_loaded_at timestamp,
+    track_id_requested_at timestamp,
     source_filename text,
     source_loaded_at timestamp
 );

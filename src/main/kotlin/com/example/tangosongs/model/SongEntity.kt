@@ -1,7 +1,10 @@
 package com.example.tangosongs.model
 
 import io.hypersistence.utils.hibernate.type.search.PostgreSQLTSVectorType
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import org.hibernate.annotations.Generated
 import org.hibernate.annotations.Type
 import java.time.Instant
@@ -17,7 +20,7 @@ class SongEntity(
     val singers: String? = null,
     val releaseYear: Int? = null,
     val trackId: String? = null,
-    val trackIdLoadedAt: Instant? = null,
+    val trackIdRequestedAt: Instant? = null,
     val sourceFilename: String? = null,
     val sourceLoadedAt: Instant? = null,
 

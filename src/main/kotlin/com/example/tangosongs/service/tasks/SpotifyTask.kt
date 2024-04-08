@@ -1,29 +1,28 @@
 package com.example.tangosongs.service.tasks
 
-import com.example.tangosongs.model.SongEntity
-import com.example.tangosongs.repository.SongRepository
-import com.example.tangosongs.service.spotify.SpotifyClient
+import com.example.tangosongs.service.SpotifyTrackIdLoader
+import com.example.tangosongs.service.tasks.SpotifyTask.Companion.TASK_NAME
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
+@ConditionalOnProperty(
+    prefix = "application.scheduling.task",
+    name = ["$TASK_NAME.enabled"],
+    havingValue = "true",
+    matchIfMissing = true
+)
 @Component
 class SpotifyTask(
-    private val songRepository: SongRepository,
-    private val spotifyClient: SpotifyClient
+    val spotifyTrackIdLoader: SpotifyTrackIdLoader
 ) {
 
-    @Scheduled(fixedDelay = 10000, initialDelay = 10000)
-    fun fillTrackIds() {
-        songRepository.findByTrackIdIsNull().map {
-            val trackId = searchMatchingSpotifyTrackId(it)
-            if (trackId != null) {
-                songRepository.updateTrackId(it.id, trackId)
-            }
-        }
+    @Scheduled(fixedDelay = 10000, initialDelay = 90000)
+    fun process() {
+        spotifyTrackIdLoader.fillTrackIds()
     }
 
-    fun searchMatchingSpotifyTrackId(songEntity: SongEntity): String? {
-        return spotifyClient.searchTracks("${songEntity.name} ${songEntity.orchestra}")
-            ?.tracks?.items?.firstOrNull()?.id
+    companion object {
+        const val TASK_NAME = "spotify-task"
     }
 }

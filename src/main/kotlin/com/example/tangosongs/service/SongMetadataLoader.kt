@@ -2,7 +2,7 @@ package com.example.tangosongs.service
 
 import com.example.tangosongs.model.SongEntity
 import com.example.tangosongs.repository.SongRepository
-import com.mpatric.mp3agic.Mp3File
+import com.example.tangosongs.service.tasks.SongMetadataLoaderTask
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -14,7 +14,7 @@ import kotlin.time.measureTime
 @Component
 class SongMetadataLoader(
     private val songRepository: SongRepository,
-    @Value("\${application.song-loader.path-to-files}")
+    @Value("\${application.scheduling.task.${SongMetadataLoaderTask.TASK_NAME}.path-to-files}")
     val pathToSongFiles: String
 ) {
 
@@ -50,39 +50,27 @@ class SongMetadataLoader(
     }
 
     fun loadSong(file: File): SongEntity? {
-        val mp3File = Mp3File(file.path)
-
-        if (mp3File.hasId3v2Tag()) {
-            val id3v2Tag = mp3File.id3v2Tag
-            val artistInfo = id3v2Tag.artist
-            val artistInfoParts = artistInfo.split("-", limit = 2) // разбиваем строку на две части по первому дефису
-            val orchestra = artistInfoParts.getOrElse(0) { artistInfo }
-            val singers = artistInfoParts.getOrElse(1) { null }
-            val releaseYear = extractDate(file.name) ?: run {
-                log.info { "Release date not found for ${file.name}" }
-                null
-            }
-
-            val songEntity = SongEntity(
-                id = UUID.randomUUID(),
-                name = id3v2Tag.title,
-                orchestra = orchestra,
-                singers = singers,
-                releaseYear = releaseYear,
-                sourceFilename = file.name,
-                sourceLoadedAt = Instant.now()
-            )
-            return songEntity
-        } else {
-            log.info { "No ID3v2 tag found" }
+        val regex = "(.*?) - (.*?) - (.*?) - (\\d{4})? - (.*?)".toRegex()
+        val matchResult = regex.find(file.name)
+        val orchestra = matchResult?.groups?.get(1)?.value ?: run {
+            log.info { "Orchestra is empty, cannot load this song ${file.name}" }
+            return null
         }
-        return null
-    }
-
-    fun extractDate(inputString: String): Int? {
-        val regex = "(\\d{4})".toRegex() // регулярное выражение для поиска даты в скобках
-        val matchResult = regex.find(inputString) // ищем соответствие регулярному выражению в строке
-        val yearString = matchResult?.groups?.get(1)?.value ?: return null
-        return yearString.toInt()
+        val singers = matchResult?.groups?.get(2)?.value
+        val title = matchResult?.groups?.get(3)?.value ?: run {
+            log.info { "Title is empty, cannot load this song ${file.name}" }
+            return null
+        }
+        val yearString = matchResult?.groups?.get(4)?.value
+        val songEntity = SongEntity(
+            id = UUID.randomUUID(),
+            name = title,
+            orchestra = orchestra,
+            singers = singers,
+            releaseYear = yearString?.toInt(),
+            sourceFilename = file.name,
+            sourceLoadedAt = Instant.now()
+        )
+        return songEntity
     }
 }
