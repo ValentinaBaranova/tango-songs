@@ -1,25 +1,21 @@
 package com.example.tangosongs.model
 
 import io.hypersistence.utils.hibernate.type.search.PostgreSQLTSVectorType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.hibernate.annotations.Generated
 import org.hibernate.annotations.Type
 import java.time.Instant
-import java.time.LocalDate
 import java.util.*
 
 @Entity
 @Table(name = "song")
-data class SongEntity(
+class SongEntity(
     @Id
     val id: UUID,
     val name: String,
     val orchestra: String,
     val singers: String? = null,
-    val releaseDate: LocalDate? = null,
+    val releaseYear: Int? = null,
     val trackId: String? = null,
     val trackIdLoadedAt: Instant? = null,
     val sourceFilename: String? = null,
@@ -29,5 +25,4 @@ data class SongEntity(
     @Column(name = "singers_orchestra_name_search_vector", columnDefinition = "tsvector")
     @Generated
     val singersOrchestraNameSearchVector: String? = null
-) {
-}
+)

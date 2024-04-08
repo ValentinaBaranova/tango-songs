@@ -18,7 +18,7 @@ class SongService(
                 name = it.name,
                 orchestra = it.orchestra,
                 singers = it.singers,
-                releaseDate = it.releaseDate,
+                releaseYear = it.releaseYear,
                 trackId = it.trackId,
             )
         }
