@@ -1,8 +1,10 @@
-Tango songs
+## Tango songs
 
-Tango songs is a service to explore tango songs.
+Tango songs is a service to store and explore tango songs. 
+Songs metadata are loaded from audio files by scheduled task, there is also scheduled task to get trackId from Spotify. 
+Service provides REST api to search songs by full text search.
 
-Technic details
+### Technic details
 
 Articles about PostgreSQL full text search:
 
