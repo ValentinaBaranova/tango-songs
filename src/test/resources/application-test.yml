@@ -1,3 +1,8 @@
 application:
   scheduling:
-    enabled: false
+    task:
+      spotify-task:
+        enabled: false
+      song-metadata-loader-task:
+        enabled: false
+        path-to-files: src/test/resources/static/source/

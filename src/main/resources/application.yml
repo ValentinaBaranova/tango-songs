@@ -28,3 +28,15 @@ feign:
     config:
       spotify:
         url: https://api.spotify.com
+
+application:
+  scheduling:
+    task:
+      spotify-task:
+        policy-delay-ms: 500
+        batch-size: 100
+        load-error-expired-duration: PT24H
+        enabled: true
+      song-metadata-loader-task:
+        enabled: true
+        path-to-files: ${SONGS_DIR}

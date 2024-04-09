@@ -17,7 +17,7 @@ class SongService(
             SongDto(
                 name = it.name,
                 orchestra = it.orchestra,
-                singer = it.singer,
+                singers = it.singers,
                 releaseYear = it.releaseYear,
                 trackId = it.trackId,
             )

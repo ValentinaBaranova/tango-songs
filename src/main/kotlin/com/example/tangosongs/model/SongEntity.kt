@@ -5,22 +5,27 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import org.hibernate.annotations.Generated
 import org.hibernate.annotations.Type
+import java.time.Instant
 import java.util.*
 
 @Entity
 @Table(name = "song")
-data class SongEntity(
+class SongEntity(
     @Id
     val id: UUID,
-    val name: String?,
-    val orchestra: String?,
-    val singer: String? = null,
-    val releaseYear: String? = null,
+    val name: String,
+    val orchestra: String,
+    val singers: String? = null,
+    val releaseYear: Int? = null,
     val trackId: String? = null,
+    val trackIdRequestedAt: Instant? = null,
+    val sourceFilename: String? = null,
+    val sourceLoadedAt: Instant? = null,
 
     @Type(PostgreSQLTSVectorType::class)
-    @Column(name = "singer_orchestra_name_search_vector", columnDefinition = "tsvector")
-    val singerOrchestraNameSearchVector: String? = null
-) {
-}
+    @Column(name = "singers_orchestra_name_search_vector", columnDefinition = "tsvector")
+    @Generated
+    val singersOrchestraNameSearchVector: String? = null
+)
